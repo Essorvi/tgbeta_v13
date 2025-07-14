@@ -97,7 +97,99 @@
 #====================================================================================================
 
 
-
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+user_problem_statement: "Изменить логин бота с @search1_test_bot на @SlitInfo_bot и настроить реферальную систему под новое имя бота"
+
+backend:
+  - task: "Изменить BOT_USERNAME в .env файле"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/.env"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Изменен BOT_USERNAME с 'search1_test_bot' на 'SlitInfo_bot' в .env файле"
+  
+  - task: "Обновить BOT_USERNAME в основном файле сервера"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Обновлен default value для BOT_USERNAME в server.py и исправлены hardcoded ссылки"
+  
+  - task: "Обновить BOT_USERNAME в тестовых файлах"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend_test.py, /app/telegram_bot/backend_test_new.py, /app/telegram_bot/admin_broadcast_test.py, /app/telegram_bot/backend_test_critical.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Обновлены default values для BOT_USERNAME во всех тестовых файлах"
+  
+  - task: "Исправить hardcoded ссылки в различных файлах"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/test_full_crypto_flow.py, /app/telegram_bot/test_cryptobot.py, /app/telegram_bot/cryptobot_investigation.py, /app/telegram_bot/custom_amount_test.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Исправлены все hardcoded ссылки с search1_test_bot на SlitInfo_bot"
+  
+  - task: "Проверить реферальную систему"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Проверена функция show_referral_menu - реферальные ссылки теперь генерируются с новым именем бота https://t.me/SlitInfo_bot?start={referral_code}"
+
+frontend:
+  - task: "Обновить документацию"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/README.md"
+    stuck_count: 0
+    priority: "low"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Обновлена документация с новым именем бота и описанием реферальной системы"
+
+metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 0
+  run_ui: false
+
+test_plan:
+  current_focus:
+    - "Все изменения выполнены"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+agent_communication:
+  - agent: "main"
+    message: "Успешно изменен логин бота с search1_test_bot на SlitInfo_bot. Обновлены все файлы, включая .env конфигурацию, основной сервер, тестовые файлы и исправлены hardcoded ссылки. Реферальная система теперь корректно генерирует ссылки с новым именем бота."
