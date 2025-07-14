@@ -101,7 +101,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Полный ребрендинг бота с УЗРИ на SlitInfo: изменить логин бота с @search1_test_bot на @SlitInfo_bot, заменить все упоминания uzrisebya на SlitInfo, обновить канал с @uzrisebya на @SlitInfo"
+user_problem_statement: "Полный ребрендинг бота с УЗРИ на SlitInfo и удаление избыточной кнопки 'Купить поиск'"
 
 backend:
   - task: "Изменить BOT_USERNAME в .env файле"
@@ -140,6 +140,30 @@ backend:
         agent: "main"
         comment: "Заменены все упоминания 'УЗРИ' на 'SlitInfo' в названиях, описаниях и API title"
   
+  - task: "Удалить избыточную кнопку 'Купить поиск'"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Удалена кнопка 'Купить поиск (25₽)' из главного меню и меню баланса, так как поиск автоматически списывается с баланса. Также удален обработчик buy_single_search"
+  
+  - task: "Унификация главного меню"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Заменена дублированная hardcoded клавиатура в show_main_menu на использование функции create_main_menu"
+
   - task: "Обновить все упоминания каналов и ссылок"
     implemented: true
     working: true
@@ -151,18 +175,6 @@ backend:
       - working: true
         agent: "main"
         comment: "Заменены все упоминания '@uzrisebya' на '@SlitInfo' в сообщениях пользователям"
-  
-  - task: "Обновить приветственные сообщения"
-    implemented: true
-    working: true
-    file: "/app/telegram_bot/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Изменены приветственные сообщения с 'ДОБРО ПОЖАЛОВАТЬ В УЗРИ' на 'ДОБРО ПОЖАЛОВАТЬ В SlitInfo'"
   
   - task: "Обновить реферальную систему"
     implemented: true
@@ -199,18 +211,6 @@ backend:
       - working: true
         agent: "main"
         comment: "Обновлены все тестовые файлы с новыми названиями и API endpoint проверками"
-  
-  - task: "Обновить криптобот тесты"
-    implemented: true
-    working: true
-    file: "/app/telegram_bot/test_full_crypto_flow.py, /app/telegram_bot/test_cryptobot.py"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Обновлены описания платежей в криптобот тестах с нового названия сервиса"
 
 frontend:
   - task: "Обновить документацию"
@@ -227,17 +227,17 @@ frontend:
 
 metadata:
   created_by: "main_agent"
-  version: "2.0"
+  version: "2.1"
   test_sequence: 0
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Полный ребрендинг завершен"
+    - "Полный ребрендинг и оптимизация завершены"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Выполнен полный ребрендинг бота с УЗРИ на SlitInfo. Изменены: логин бота (search1_test_bot -> SlitInfo_bot), канал для подписки (@uzrisebya -> @SlitInfo), все тексты и описания, платежные сообщения, реферальная система, тестовые файлы и документация. Бот теперь полностью соответствует бренду SlitInfo."
+    message: "Выполнен полный ребрендинг бота с УЗРИ на SlitInfo и удалена избыточная кнопка 'Купить поиск'. Теперь пользователи могут сразу делать поиск если у них есть баланс ≥25₽, а при недостатке средств система автоматически предложит пополнить баланс. Это улучшает пользовательский опыт и убирает лишние шаги."
