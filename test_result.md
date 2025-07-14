@@ -101,7 +101,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Изменить логин бота с @search1_test_bot на @SlitInfo_bot и настроить реферальную систему под новое имя бота"
+user_problem_statement: "Полный ребрендинг бота с УЗРИ на SlitInfo: изменить логин бота с @search1_test_bot на @SlitInfo_bot, заменить все упоминания uzrisebya на SlitInfo, обновить канал с @uzrisebya на @SlitInfo"
 
 backend:
   - task: "Изменить BOT_USERNAME в .env файле"
@@ -116,7 +116,19 @@ backend:
         agent: "main"
         comment: "Изменен BOT_USERNAME с 'search1_test_bot' на 'SlitInfo_bot' в .env файле"
   
-  - task: "Обновить BOT_USERNAME в основном файле сервера"
+  - task: "Изменить REQUIRED_CHANNEL в .env файле"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/.env"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Изменен REQUIRED_CHANNEL с '@uzrisebya' на '@SlitInfo' в .env файле"
+  
+  - task: "Обновить название сервиса во всех файлах"
     implemented: true
     working: true
     file: "/app/telegram_bot/backend/server.py"
@@ -126,9 +138,57 @@ backend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Обновлен default value для BOT_USERNAME в server.py и исправлены hardcoded ссылки"
+        comment: "Заменены все упоминания 'УЗРИ' на 'SlitInfo' в названиях, описаниях и API title"
   
-  - task: "Обновить BOT_USERNAME в тестовых файлах"
+  - task: "Обновить все упоминания каналов и ссылок"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Заменены все упоминания '@uzrisebya' на '@SlitInfo' в сообщениях пользователям"
+  
+  - task: "Обновить приветственные сообщения"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Изменены приветственные сообщения с 'ДОБРО ПОЖАЛОВАТЬ В УЗРИ' на 'ДОБРО ПОЖАЛОВАТЬ В SlitInfo'"
+  
+  - task: "Обновить реферальную систему"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Реферальная система обновлена: условие подписки изменено на @SlitInfo, ссылки теперь ведут на SlitInfo_bot"
+  
+  - task: "Обновить платежные описания"
+    implemented: true
+    working: true
+    file: "/app/telegram_bot/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "Обновлены описания платежей с 'Пополнение баланса УЗРИ' на 'Пополнение баланса SlitInfo'"
+  
+  - task: "Обновить тестовые файлы"
     implemented: true
     working: true
     file: "/app/telegram_bot/backend_test.py, /app/telegram_bot/backend_test_new.py, /app/telegram_bot/admin_broadcast_test.py, /app/telegram_bot/backend_test_critical.py"
@@ -138,31 +198,19 @@ backend:
     status_history:
       - working: true
         agent: "main"
-        comment: "Обновлены default values для BOT_USERNAME во всех тестовых файлах"
+        comment: "Обновлены все тестовые файлы с новыми названиями и API endpoint проверками"
   
-  - task: "Исправить hardcoded ссылки в различных файлах"
+  - task: "Обновить криптобот тесты"
     implemented: true
     working: true
-    file: "/app/telegram_bot/test_full_crypto_flow.py, /app/telegram_bot/test_cryptobot.py, /app/telegram_bot/cryptobot_investigation.py, /app/telegram_bot/custom_amount_test.py"
+    file: "/app/telegram_bot/test_full_crypto_flow.py, /app/telegram_bot/test_cryptobot.py"
     stuck_count: 0
     priority: "medium"
     needs_retesting: false
     status_history:
       - working: true
         agent: "main"
-        comment: "Исправлены все hardcoded ссылки с search1_test_bot на SlitInfo_bot"
-  
-  - task: "Проверить реферальную систему"
-    implemented: true
-    working: true
-    file: "/app/telegram_bot/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: true
-        agent: "main"
-        comment: "Проверена функция show_referral_menu - реферальные ссылки теперь генерируются с новым именем бота https://t.me/SlitInfo_bot?start={referral_code}"
+        comment: "Обновлены описания платежей в криптобот тестах с нового названия сервиса"
 
 frontend:
   - task: "Обновить документацию"
@@ -170,26 +218,26 @@ frontend:
     working: true
     file: "/app/telegram_bot/README.md"
     stuck_count: 0
-    priority: "low"
+    priority: "medium"
     needs_retesting: false
     status_history:
       - working: true
         agent: "main"
-        comment: "Обновлена документация с новым именем бота и описанием реферальной системы"
+        comment: "Полностью обновлена документация с новым названием бота и каналом"
 
 metadata:
   created_by: "main_agent"
-  version: "1.0"
+  version: "2.0"
   test_sequence: 0
   run_ui: false
 
 test_plan:
   current_focus:
-    - "Все изменения выполнены"
+    - "Полный ребрендинг завершен"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
   - agent: "main"
-    message: "Успешно изменен логин бота с search1_test_bot на SlitInfo_bot. Обновлены все файлы, включая .env конфигурацию, основной сервер, тестовые файлы и исправлены hardcoded ссылки. Реферальная система теперь корректно генерирует ссылки с новым именем бота."
+    message: "Выполнен полный ребрендинг бота с УЗРИ на SlitInfo. Изменены: логин бота (search1_test_bot -> SlitInfo_bot), канал для подписки (@uzrisebya -> @SlitInfo), все тексты и описания, платежные сообщения, реферальная система, тестовые файлы и документация. Бот теперь полностью соответствует бренду SlitInfo."
